@@ -32,14 +32,21 @@ public class BrowserConfig {
     }
 
     public static String getLoginUrl() {
-        return properties.getProperty("login.url", "http://example.com/login");
+        return properties.getProperty("login.url");
     }
 
     public static String getDashboardUrl() {
-        return properties.getProperty("dashboard.url", "http://example.com/dashboard");
+        return properties.getProperty("dashboard.url");
     }
 
     public static String getDirectoryUrl() {
-        return properties.getProperty("directory.url", "http://example.com/directory");
+        return properties.getProperty("directory.url");
+    }
+
+    public static String getUser(){
+        return properties.getProperty("username");
+    }
+    public static String getPasswd(){
+        return properties.getProperty("password");
     }
 }

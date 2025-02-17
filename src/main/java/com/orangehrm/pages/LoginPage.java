@@ -4,37 +4,41 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
-
-/**
- * Represents the Login page and encapsulates the login functionality.
- */
 public class LoginPage {
     private WebDriver driver;
-    private String buttonXpath = "//button[@class='oxd-button oxd-button--medium oxd-button--main orangehrm-login-button']";
-    private String userNameField ="(//input[@class='oxd-input oxd-input--active'])[1]";
-    private String passWordField ="(//input[@class='oxd-input oxd-input--active'])[2]";
 
-    // Locators for the login form elements (adjust based on actual HTML)
-    private By usernameField = By.xpath(userNameField);
-    private By passwordField = By.xpath(passWordField);
+    // Page Objects
+    private String loginHeadingXpath = "//h5[contains(., 'Login')]";
+    private String buttonXpath = "//button";
+    private String userNameFieldXpath ="(//input)[2]";
+    private String passWordFieldXpath ="(//input)[3]";
+    private String dashboardXpath = "//h6[contains(., 'Dashboard')]";
+
+    // Create locators objects from string objects to be used by the driver object
+    private By usernameField = By.xpath(userNameFieldXpath);
+    private By passwordField = By.xpath(passWordFieldXpath);
     private By loginButton = By.xpath(buttonXpath);
+    private By loginHeader = By.xpath(loginHeadingXpath);
+    private By dashBoardHeader = By.xpath(dashboardXpath);
+
+// Declare waits
+    private WebDriverWait driverWait;
+    Duration WAIT_TIME = Duration.ofSeconds(10);
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
-
+        this.driverWait = new WebDriverWait(driver, WAIT_TIME);
     }
 
-    /**
-     * Logs in using the provided username and password.
-     *
-     * @param username The username.
-     * @param password The password.
-     */
+
     public void login(String username, String password) {
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driverWait.until(
+                ExpectedConditions.visibilityOfElementLocated(loginHeader)
+        );
         // Enter username
         WebElement usernameInput = driver.findElement(usernameField);
         usernameInput.clear();
@@ -47,6 +51,9 @@ public class LoginPage {
 
         // Click the login button
         driver.findElement(loginButton).click();
-        // Optionally: add wait or validation here to ensure the login was successful
+        // Add wait or validation here to ensure the login was successful
+        driverWait.until(
+                ExpectedConditions.visibilityOfElementLocated(dashBoardHeader)
+        );
     }
 }

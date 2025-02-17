@@ -15,10 +15,10 @@ import org.testng.annotations.BeforeSuite;
 public class BaseTest {
     protected static WebDriver driver;
     protected static boolean isLoggedIn = false;
+    protected static BrowserConfig browserConfig = new BrowserConfig();
 
-    // Credentials can be loaded from config; hardcoded here for simplicity.
-    private String username = "testuser";
-    private String password = "testpass";
+    private String username = browserConfig.getUser();
+    private String password = browserConfig.getPasswd();
 
     @BeforeSuite(alwaysRun = true)
     public void setUpSuite() {
@@ -31,7 +31,7 @@ public class BaseTest {
     public void login() {
         if (!isLoggedIn) {
             // Navigate to the login page using the URL from configuration.
-            driver.get(BrowserConfig.getLoginUrl());
+            driver.get(browserConfig.getLoginUrl());
 
             // Instantiate the LoginPage and perform login.
             LoginPage loginPage = new LoginPage(driver);
@@ -39,13 +39,13 @@ public class BaseTest {
 
             // Mark that the login has been performed.
             isLoggedIn = true;
-
             // Optionally: wait for or verify that login was successful (e.g., check URL or dashboard element)
         }
     }
 
     @AfterSuite(alwaysRun = true)
     public void tearDownSuite() {
+        // Need to implement logout for preventing orphan login sessions
         if (driver != null) {
             driver.quit();
             driver = null;
