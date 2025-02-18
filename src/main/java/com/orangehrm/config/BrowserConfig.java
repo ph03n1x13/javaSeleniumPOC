@@ -39,8 +39,8 @@ public class BrowserConfig {
         return properties.getProperty("dashboard.url");
     }
 
-    public static String getDirectoryUrl() {
-        return properties.getProperty("directory.url");
+    public static String getMyInfoUrl() {
+        return properties.getProperty("myinfo.url");
     }
 
     public static String getUser(){

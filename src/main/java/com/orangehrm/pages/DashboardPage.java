@@ -28,22 +28,13 @@ public class DashboardPage {
     public DashboardPage(WebDriver driver) {
         this.driver = driver;
         this.driverWait = new WebDriverWait(driver, WAIT_TIME);
+        this.driverWait.until(
+                ExpectedConditions.visibilityOfElementLocated(dashboardHeader)
+        );
     }
 
     public String getHeaderText() {
-        driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(dashboardHeader)
-        );
         WebElement header = driver.findElement(dashboardHeader);
-        return header.getText();
-    }
-
-    public String getMenuDashboardHeader() {
-        driverWait.until(
-                ExpectedConditions.visibilityOfElementLocated(menuDashboard)
-        );
-
-        WebElement header = driver.findElement(menuDashboard);
         return header.getText();
     }
 }
